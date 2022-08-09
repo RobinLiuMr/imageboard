@@ -3,9 +3,19 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Imageboard</title>
+        <link rel="stylesheet" href="/css/style.css">
+        <title>Image board</title>
     </head>
     <body>
+        <main id="main">
+            <div class="images_container">
+                <figure v-for="image in images">
+                    <img :src="image.url" :alt="image.description">
+                    <figcaption>{{image.title}}</figcaption>
+                </figure>
+            </div>
+   
+        </main>
         <script
             src="/js/app.js"
             type="module"
