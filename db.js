@@ -20,4 +20,17 @@ function getImages() {
         .catch((err) => console.log(err));
 }
 
-module.exports = { getImages };
+// function to create image
+function createImage({ url, username, title, description }) {
+    return db
+        .query(
+            `INSERT INTO images (url, username, title, description) 
+            VALUES ($1, $2, $3, $4)
+
+        `,
+            [url, username, title, description]
+        )
+        .then((result) => result.rows[0]);
+}
+
+module.exports = { getImages, createImage };

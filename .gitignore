@@ -2,3 +2,5 @@ node_modules
 .DS_Store
 secrets.json
 db-playground.js
+.vscode
+s3-test.js

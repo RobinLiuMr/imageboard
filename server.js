@@ -1,11 +1,31 @@
-const path = require('path');
 const express = require('express');
+const path = require('path');
+const { getImages, createImage } = require('./db');
+const { uploader } = require('./uploader');
+const { Bucket, s3Upload } = require('./s3');
+
 const app = express();
-const { getImages } = require('./db');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
+// upload route
+app.post('/upload', uploader.single('file'), s3Upload, (request, response) => {
+    const url = `https://s3.amazonaws.com/${Bucket}/${request.file.filename}`;
+    console.log('POST /upload', url);
+
+    createImage({
+        url,
+        ...request.body,
+    })
+        .then((newImage) => {
+            response.json(newImage);
+        })
+        .catch((error) => {
+            console.log('POST /upload', error);
+            response.statusCode(500).json({ message: 'error uploading image' });
+        });
+});
 // images route
 // [
 //   {
