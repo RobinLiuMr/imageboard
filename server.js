@@ -39,7 +39,7 @@ app.post('/upload', uploader.single('file'), s3Upload, (request, response) => {
 //   ...
 // ]
 app.get('/images', (request, response) => {
-    console.log('images route');
+    // console.log('images route');
     getImages().then((images) => response.json(images));
 });
 

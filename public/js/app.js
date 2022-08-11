@@ -2,19 +2,28 @@ import * as Vue from './vue.js';
 
 // components
 const imageModal = {
+    filters: {
+        formatDate: function (timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('de-DE');
+        },
+    },
+
     props: ['image'],
+
     methods: {
         onCloseButtonClick() {
             console.log('imageModal:onCloseButtonClick');
             this.$emit('close');
         },
     },
+
     template: `
         <section class="image-modal">
             <img v-bind:src="image.url">
             <figcaption> {{image.title}} </figcaption>
             <p>{{image.description}}</p>
-            <p>Uploaded by {{image.username}} on created time (add later)</p>
+            <p>Uploaded by {{image.username}} on {{image.created_at | formatDate}} </p>
             <button v-on:click="onCloseButtonClick">Close Modal</button>
 
         </section>
