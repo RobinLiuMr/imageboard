@@ -4,11 +4,11 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="/css/style.css">
-        <title>Image board</title>
+        <title>Image Board</title>
     </head>
     <body>
         <header>
-            <h1>I LOVE PIXELS</h1> 
+            <h1>Image Board</h1> 
         </header>
         <main id="main">
             <h2>Add an Image Now</h2>
@@ -23,10 +23,17 @@
             <h2>Latest Images</h2>
             <div class="images_container">                
                 <figure v-for="image in images">
-                    <img :src="image.url" :alt="image.description">
+                    <img :src="image.url" :alt="image.description" v-on:click="onImageClick(image)">
                     <figcaption>{{image.title}}</figcaption>
                 </figure>
             </div>
+
+            <image-modal 
+            v-on:close="onModalClose"
+            v-if="currentImage" v-bind:image="currentImage"></image-modal>
+            
+
+
    
         </main>
         <script

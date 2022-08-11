@@ -1,9 +1,10 @@
 * {
     box-sizing: border-box;
+    margin: 0;
 }
 
 html {
-    max-width: 1600px;
+    max-width: 1250px;
     margin: auto;
 }
 
@@ -12,13 +13,34 @@ html {
     flex-wrap: wrap;
 }
 
-figure {
+.images_container figure {
     border: 2px solid skyblue;
 }
 
-img {
+.images_container img {
     width: 300px;
     height: 200px;
     max-width: 100%;
     object-fit: cover;
+}
+
+.image-modal {
+    position: fixed;
+    inset: 1rem;
+    background-color: skyblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.image-modal img {
+    width: 600px;
+    height: 400px;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+.image-modal button {
+    width: 100px;
 }

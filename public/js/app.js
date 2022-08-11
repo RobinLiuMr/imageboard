@@ -1,6 +1,31 @@
 import * as Vue from './vue.js';
 
+// components
+const imageModal = {
+    props: ['image'],
+    methods: {
+        onCloseButtonClick() {
+            console.log('imageModal:onCloseButtonClick');
+            this.$emit('close');
+        },
+    },
+    template: `
+        <section class="image-modal">
+            <img v-bind:src="image.url">
+            <figcaption> {{image.title}} </figcaption>
+            <p>{{image.description}}</p>
+            <p>Uploaded by {{image.username}} on created time (add later)</p>
+            <button v-on:click="onCloseButtonClick">Close Modal</button>
+
+        </section>
+    `,
+};
+
 Vue.createApp({
+    components: {
+        'image-modal': imageModal,
+    },
+
     data() {
         return {
             images: [],
@@ -8,6 +33,7 @@ Vue.createApp({
             description: '',
             username: '',
             file: null,
+            currentImage: null,
         };
     },
 
@@ -32,6 +58,16 @@ Vue.createApp({
 
         handleFileChange(event) {
             this.file = event.target.files[0];
+        },
+
+        onImageClick(image) {
+            console.log('App:onImageClick', image);
+            this.currentImage = image;
+        },
+
+        onModalClose() {
+            console.log('App:onModalClose');
+            this.currentImage = null;
         },
     },
 
