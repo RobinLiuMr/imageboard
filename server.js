@@ -1,6 +1,11 @@
 const express = require('express');
 const path = require('path');
-const { getImages, createImage } = require('./db');
+const {
+    getImages,
+    createImage,
+    getCommentsByImageId,
+    createComment,
+} = require('./db');
 const { uploader } = require('./uploader');
 const { Bucket, s3Upload } = require('./s3');
 
@@ -26,23 +31,37 @@ app.post('/upload', uploader.single('file'), s3Upload, (request, response) => {
             response.statusCode(500).json({ message: 'error uploading image' });
         });
 });
+
 // images route
-// [
-//   {
-//     id: 1,
-//     url: 'https://s3.amazonaws.com/imageboard/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg',
-//     username: 'funkychicken',
-//     title: 'Welcome to Spiced and the Future!',
-//     description: 'This photo brings back so many great memories.',
-//     created_at: 2022-08-09T12:01:35.213Z
-//   },
-//   ...
-// ]
 app.get('/images', (request, response) => {
     // console.log('images route');
     getImages().then((images) => response.json(images));
 });
 
+// comments route
+app.get('/images/:image_id/comments', (request, response) => {
+    console.log('comments route: GET');
+    getCommentsByImageId(request.params.image_id).then((comments) =>
+        response.json(comments)
+    );
+});
+
+app.post('/images/:image_id/comments', (request, response) => {
+    console.log('comments route: POST');
+    createComment({
+        ...request.body,
+        ...request.params,
+    })
+        .then((newComment) => {
+            response.json(newComment);
+        })
+        .catch((error) => {
+            console.log('POST /comments', error);
+            response.statusCode(500).json({ message: 'error post comments' });
+        });
+});
+
+// serve everything-- in the end!
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });

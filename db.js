@@ -7,17 +7,38 @@ const db = spicedPg(
     `postgres:${DATABASE_USER}:${DATABASE_PASSWORD}@localhost:5432/${DATABASE_NAME}`
 );
 
-// build a function to get all the images
-// imageboard=# SELECT * FROM images;
-//  id |                                   url                                    |   username   |               title               |                  description                   |         created_at
-// ----+--------------------------------------------------------------------------+--------------+-----------------------------------+------------------------------------------------+----------------------------
-
-function getImages() {
+// function to get all comments by image_id
+function getCommentsByImageId(image_id) {
     return db
-        .query('SELECT * FROM images')
-        .then((result) => result.rows)
+        .query(
+            `
+            SELECT * FROM comments
+            WHERE image_id = $1
+        `,
+            [image_id]
+        )
+        .then((result) => result.rows);
+}
 
-        .catch((err) => console.log(err));
+// function to create a new comment
+// imageboard=# SELECT * FROM comments;
+//  id | username | image_id | text | created_at
+// ----+----------+----------+------+-----------
+function createComment({ text, username, image_id }) {
+    return db
+        .query(
+            `INSERT INTO comments (text, username, image_id) 
+            VALUES ($1, $2, $3)
+
+        `,
+            [text, username, image_id]
+        )
+        .then((result) => result.rows[0]);
+}
+
+// function to get all the images
+function getImages() {
+    return db.query('SELECT * FROM images').then((result) => result.rows);
 }
 
 // function to create image
@@ -33,4 +54,9 @@ function createImage({ url, username, title, description }) {
         .then((result) => result.rows[0]);
 }
 
-module.exports = { getImages, createImage };
+module.exports = {
+    getImages,
+    createImage,
+    getCommentsByImageId,
+    createComment,
+};
