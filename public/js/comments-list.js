@@ -32,6 +32,7 @@ const CommentsList = {
             })
                 .then((response) => response.json())
                 .then((newComment) => {
+                    console.log({ newComment });
                     this.comments = [newComment, ...this.comments];
                 })
                 .catch((error) => console.log('post comment error', error));

@@ -49,6 +49,18 @@ Vue.createApp({
             console.log('App:onModalClose');
             this.clickedImageId = null;
         },
+
+        onLoadMoreButtonClick() {
+            const lastID = this.images[this.images.length - 1].id;
+            console.log('lastID', lastID);
+            if (lastID > 1) {
+                fetch(`/more-images?limit=3&lastID=${lastID}`)
+                    .then((response) => response.json())
+                    .then((newImages) => {
+                        this.images = [...this.images, ...newImages];
+                    });
+            }
+        },
     },
 
     mounted() {

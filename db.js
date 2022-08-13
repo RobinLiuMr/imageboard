@@ -38,7 +38,31 @@ function createComment({ text, username, image_id }) {
 
 // function to get all the images
 function getImages() {
-    return db.query('SELECT * FROM images').then((result) => result.rows);
+    return db
+        .query(
+            `
+        SELECT * FROM images
+        ORDER BY id DESC
+        LIMIT 3
+        `
+        )
+        .then((result) => result.rows);
+}
+
+// more images
+function getMoreImages({ limit, lastID }) {
+    return db
+        .query(
+            `
+        SELECT * FROM images
+        WHERE id < $2
+        ORDER BY id DESC        
+        LIMIT $1
+        
+        `,
+            [limit, lastID]
+        )
+        .then((result) => result.rows);
 }
 
 // function to get a image by image ID
@@ -74,4 +98,5 @@ module.exports = {
     getCommentsByImageId,
     createComment,
     getImageByImageId,
+    getMoreImages,
 };
