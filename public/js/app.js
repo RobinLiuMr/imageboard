@@ -1,45 +1,5 @@
 import * as Vue from './vue.js';
-
-// components of imageModal
-import CommentsList from './comments-list';
-// const CommentsList = require('./comments-list');
-
-const imageModal = {
-    props: ['image'],
-
-    components: {
-        'comments-list': CommentsList,
-    },
-
-    methods: {
-        onCloseButtonClick() {
-            console.log('imageModal:onCloseButtonClick');
-            this.$emit('close');
-        },
-    },
-
-    template: `
-        <section class="image-modal">
-            <img v-bind:src="image.url">
-            <figcaption> {{image.title}} </figcaption>
-            <p>{{image.description}}</p>
-            <p>Uploaded by {{image.username}} on {{image.created_at}} </p>
-            <button v-on:click="onCloseButtonClick">Close Modal</button>
-
-            <comments-list :image_id="image.id"></comments-list>
-
-            
-
-        </section>
-    `,
-
-    // filters: {
-    //     formatDate: function (timestamp) {
-    //         const date = new Date(timestamp);
-    //         return date.toLocaleDateString();
-    //     },
-    // },
-};
+import imageModal from './image-modal.js';
 
 Vue.createApp({
     components: {
@@ -53,7 +13,7 @@ Vue.createApp({
             description: '',
             username: '',
             file: null,
-            currentImage: null,
+            clickedImageId: null,
         };
     },
 
@@ -82,12 +42,12 @@ Vue.createApp({
 
         onImageClick(image) {
             console.log('App:onImageClick', image);
-            this.currentImage = image;
+            this.clickedImageId = image.id;
         },
 
         onModalClose() {
             console.log('App:onModalClose');
-            this.currentImage = null;
+            this.clickedImageId = null;
         },
     },
 

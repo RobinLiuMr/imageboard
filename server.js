@@ -5,6 +5,7 @@ const {
     createImage,
     getCommentsByImageId,
     createComment,
+    getImageByImageId,
 } = require('./db');
 const { uploader } = require('./uploader');
 const { Bucket, s3Upload } = require('./s3');
@@ -38,9 +39,17 @@ app.get('/images', (request, response) => {
     getImages().then((images) => response.json(images));
 });
 
+app.get('/images/:image_id/', (request, response) => {
+    // console.log('image by image ID route');
+    getImageByImageId(request.params.image_id).then((image) =>
+        response.json(image)
+    );
+});
+
 // comments route
 app.get('/images/:image_id/comments', (request, response) => {
     console.log('comments route: GET');
+    // console.log(request.params.image_id);
     getCommentsByImageId(request.params.image_id).then((comments) =>
         response.json(comments)
     );
@@ -51,14 +60,9 @@ app.post('/images/:image_id/comments', (request, response) => {
     createComment({
         ...request.body,
         ...request.params,
-    })
-        .then((newComment) => {
-            response.json(newComment);
-        })
-        .catch((error) => {
-            console.log('POST /comments', error);
-            response.statusCode(500).json({ message: 'error post comments' });
-        });
+    }).then((newComment) => {
+        response.json(newComment);
+    });
 });
 
 // serve everything-- in the end!

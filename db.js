@@ -41,6 +41,20 @@ function getImages() {
     return db.query('SELECT * FROM images').then((result) => result.rows);
 }
 
+// function to get a image by image ID
+
+function getImageByImageId(id) {
+    return db
+        .query(
+            `
+            SELECT * FROM images
+            WHERE id = $1
+        `,
+            [id]
+        )
+        .then((result) => result.rows[0]);
+}
+
 // function to create image
 function createImage({ url, username, title, description }) {
     return db
@@ -59,4 +73,5 @@ module.exports = {
     createImage,
     getCommentsByImageId,
     createComment,
+    getImageByImageId,
 };
