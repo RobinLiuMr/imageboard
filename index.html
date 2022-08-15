@@ -8,9 +8,10 @@
     </head>
     <body>
         <header>
-            <h1>Image Board</h1> 
+            
         </header>
         <main id="main">
+            <h1>Image Board</h1> 
             <h2>Add an Image Now</h2>
             <form @submit.prevent.default="handleSubmit">
                 <input type="text" name="title" placeholder="title" v-model="title">
@@ -26,8 +27,9 @@
                     <img :src="image.url" :alt="image.description" v-on:click="onImageClick(image)">
                     <figcaption>{{image.title}}</figcaption>
                 </figure>
+                <button v-bind:class="btnMoreImages" v-on:click="onLoadMoreButtonClick">Load More Images</button>
             </div>
-            <button v-bind:class="btnMoreImages" v-on:click="onLoadMoreButtonClick">Load More Images</button>
+            
 
             
 

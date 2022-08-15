@@ -41,17 +41,17 @@ const CommentsList = {
 
     template: `
     <div class="comments">
-        <p>Add a comment!</p>
+        <h2>Add a comment!</h2>
         <form v-on:submit="onFromSubmit">
             <input type="text" name="text" required placeholder="Comment" v-model="text">
             <input type="text" name="username" required placeholder="Username" v-model="username">
             <button>Submit</button>
         </form>
 
-        <p>The latest comment</p>
+        <h2>The latest comment</h2>
         <div v-for="comment in comments">
-        <p>{{comment.text}}</p>
-        <p>{{comment.username}} on {{ new Date(comment.created_at).toLocaleDateString() }}</p>
+        <p class="text">{{comment.text}}</p>
+        <p class="user_info">{{comment.username}} <{{ new Date(comment.created_at).toLocaleDateString() }}></p>
         </div>
         
     </div>

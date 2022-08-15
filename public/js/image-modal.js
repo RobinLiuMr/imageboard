@@ -102,16 +102,23 @@ const imageModal = {
 
     template: `
         <section class="image-modal">
+            <nav>
             <button v-if="btnPre" v-on:click="onPreButtonClick">Previous Modal</button>
             <button v-if="btnNext"  v-on:click="onNextButtonClick">Next Modal</button>
+            </nav>
+
+            <div class="container">
             <img v-bind:src="url">
-            <figcaption> {{title}} </figcaption>
+            <div class="info">
+            <figcaption> <strong>{{title}}</strong> </figcaption>
             <p>{{description}}</p>
 
-            <p class="info">
-            Uploaded by <strong>{{ username }}</strong>
+            <p>
+            Uploaded by {{ username }}
             on <time>{{ formattedDate }}</time>
             </p>
+            </div>
+            </div>
 
             <button v-on:click="onCloseButtonClick">Close Modal</button>
 
