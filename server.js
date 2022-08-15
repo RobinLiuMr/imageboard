@@ -41,7 +41,7 @@ app.get('/images', (request, response) => {
 });
 
 app.get('/images/:image_id/', (request, response) => {
-    console.log('image by image ID route');
+    console.log('image by image_id route');
     getImageByImageId(request.params.image_id).then((image) =>
         response.json(image)
     );

@@ -13,7 +13,8 @@ Vue.createApp({
             description: '',
             username: '',
             file: null,
-            clickedImageId: null,
+            clickedImageId: location.pathname.slice(1),
+            btnMoreImages: 'btn_more_images_show',
         };
     },
 
@@ -43,23 +44,28 @@ Vue.createApp({
         onImageClick(image) {
             console.log('App:onImageClick', image);
             this.clickedImageId = image.id;
+            history.pushState({}, '', `/${this.clickedImageId}`);
         },
 
         onModalClose() {
             console.log('App:onModalClose');
             this.clickedImageId = null;
+            history.pushState({}, '', `/`);
         },
 
         onLoadMoreButtonClick() {
             const lastID = this.images[this.images.length - 1].id;
-            console.log('lastID', lastID);
-            if (lastID > 1) {
-                fetch(`/more-images?limit=3&lastID=${lastID}`)
-                    .then((response) => response.json())
-                    .then((newImages) => {
-                        this.images = [...this.images, ...newImages];
-                    });
+            // console.log('lastID', lastID);
+            if (lastID === 1) {
+                this.btnMoreImages = 'btn_more_images_hidden';
+                return;
             }
+
+            fetch(`/more-images?limit=3&lastID=${lastID}`)
+                .then((response) => response.json())
+                .then((newImages) => {
+                    this.images = [...this.images, ...newImages];
+                });
         },
     },
 
@@ -72,5 +78,10 @@ Vue.createApp({
                 this.images = data;
             })
             .catch((err) => console.log('fetch /images error', err));
+
+        window.addEventListener('popstate', () => {
+            // console.log(location.pathname, event.state);
+            this.clickedImageId = location.pathname.slice(1);
+        });
     },
 }).mount('#main');

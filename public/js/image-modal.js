@@ -35,6 +35,10 @@ const imageModal = {
                 this.description = data.description;
                 this.username = data.username;
                 this.created_at = data.created_at;
+            })
+            .catch(() => {
+                console.log('no image found');
+                history.replaceState({}, '', `/`);
             });
     },
 
@@ -43,7 +47,7 @@ const imageModal = {
             <img v-bind:src="url">
             <figcaption> {{title}} </figcaption>
             <p>{{description}}</p>
-            <p>Uploaded by {{username}} on {{created_at}} </p>
+            <p>Uploaded by {{username}} on {{ created_at }} </p>
             <button v-on:click="onCloseButtonClick">Close Modal</button>
 
             <comments-list :image_id="image_id"></comments-list>

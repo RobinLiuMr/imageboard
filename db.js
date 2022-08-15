@@ -29,6 +29,7 @@ function createComment({ text, username, image_id }) {
         .query(
             `INSERT INTO comments (text, username, image_id) 
             VALUES ($1, $2, $3)
+            RETURNING *
 
         `,
             [text, username, image_id]
@@ -85,6 +86,7 @@ function createImage({ url, username, title, description }) {
         .query(
             `INSERT INTO images (url, username, title, description) 
             VALUES ($1, $2, $3, $4)
+            RETURNING *
 
         `,
             [url, username, title, description]

@@ -44,3 +44,7 @@ html {
 .image-modal button {
     width: 100px;
 }
+
+.btn_more_images_hidden {
+    display: none;
+}
