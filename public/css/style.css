@@ -45,6 +45,10 @@ html {
     width: 100px;
 }
 
-.btn_more_images_hidden {
+.btn_hidden {
     display: none;
+}
+
+.btn_show {
+    display: unset;
 }

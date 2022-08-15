@@ -14,7 +14,9 @@ Vue.createApp({
             username: '',
             file: null,
             clickedImageId: location.pathname.slice(1),
-            btnMoreImages: 'btn_more_images_show',
+            btnMoreImages: 'btn_show',
+            firstID: null,
+            lastID: null,
         };
     },
 
@@ -53,29 +55,43 @@ Vue.createApp({
             history.pushState({}, '', `/`);
         },
 
-        onLoadMoreButtonClick() {
-            const lastID = this.images[this.images.length - 1].id;
-            // console.log('lastID', lastID);
-            if (lastID === 1) {
-                this.btnMoreImages = 'btn_more_images_hidden';
-                return;
-            }
+        onModalPre(ID) {
+            console.log('App:onModalPre');
+            this.clickedImageId = ID;
+            history.pushState({}, '', `/${this.clickedImageId}`);
+        },
 
-            fetch(`/more-images?limit=3&lastID=${lastID}`)
+        onModalNext(ID) {
+            console.log('App:onModalNext');
+            this.clickedImageId = ID;
+            history.pushState({}, '', `/${this.clickedImageId}`);
+        },
+
+        onLoadMoreButtonClick() {
+            fetch(`/more-images?limit=3&lastID=${this.lastID}`)
                 .then((response) => response.json())
                 .then((newImages) => {
                     this.images = [...this.images, ...newImages];
+                    this.lastID -= 3;
+                    // console.log('lastID', this.lastID);
+                    if (this.lastID <= 1) {
+                        this.btnMoreImages = 'btn_hidden';
+                        return;
+                    }
                 });
         },
     },
 
     mounted() {
         console.log('mounted -> fetch some data.');
+
         fetch('/images')
             .then((response) => response.json())
             .then((data) => {
                 // console.log('data', data);
                 this.images = data;
+                this.lastID = this.images[this.images.length - 1].id;
+                this.firstID = this.images[0].id;
             })
             .catch((err) => console.log('fetch /images error', err));
 

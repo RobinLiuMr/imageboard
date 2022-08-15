@@ -7,6 +7,8 @@ const {
     createComment,
     getImageByImageId,
     getMoreImages,
+    getPreviousID,
+    getNextID,
 } = require('./db');
 const { uploader } = require('./uploader');
 const { Bucket, s3Upload } = require('./s3');
@@ -42,9 +44,17 @@ app.get('/images', (request, response) => {
 
 app.get('/images/:image_id/', (request, response) => {
     console.log('image by image_id route');
-    getImageByImageId(request.params.image_id).then((image) =>
-        response.json(image)
-    );
+    // getImageByImageId(request.params.image_id).then((image) =>
+    //     response.json(image)
+    // );
+
+    Promise.all([
+        getImageByImageId(request.params.image_id),
+        getPreviousID(request.params.image_id),
+        getNextID(request.params.image_id),
+    ]).then(([image, previousID, nextID]) => {
+        response.json([image, previousID, nextID]);
+    });
 });
 
 app.get('/more-images', (request, response) => {

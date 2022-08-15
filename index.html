@@ -33,7 +33,11 @@
 
             <image-modal 
             v-on:close="onModalClose"
-            v-if="clickedImageId" v-bind:image_id="clickedImageId">
+            v-on:pre="onModalPre"
+            v-on:next="onModalNext"
+            v-if="clickedImageId" 
+            v-bind:image_id="clickedImageId"
+            v-bind:first_id="firstID">
             </image-modal>
 
         </main>

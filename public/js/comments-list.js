@@ -51,7 +51,7 @@ const CommentsList = {
         <p>The latest comment</p>
         <div v-for="comment in comments">
         <p>{{comment.text}}</p>
-        <p>{{comment.username}} on {{comment.created_at}}</p>
+        <p>{{comment.username}} on {{ new Date(comment.created_at).toLocaleDateString() }}</p>
         </div>
         
     </div>

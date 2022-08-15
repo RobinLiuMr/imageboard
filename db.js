@@ -80,6 +80,36 @@ function getImageByImageId(id) {
         .then((result) => result.rows[0]);
 }
 
+// function to get  previous id if exists
+function getPreviousID(id) {
+    return db
+        .query(
+            `
+            SELECT id FROM images
+            WHERE id > $1
+            ORDER BY id ASC
+            LIMIT 1
+        `,
+            [id]
+        )
+        .then((result) => result.rows[0]);
+}
+
+// function to get  next id if exists
+function getNextID(id) {
+    return db
+        .query(
+            `
+            SELECT id FROM images
+            WHERE id < $1
+            ORDER BY id DESC
+            LIMIT 1
+        `,
+            [id]
+        )
+        .then((result) => result.rows[0]);
+}
+
 // function to create image
 function createImage({ url, username, title, description }) {
     return db
@@ -101,4 +131,6 @@ module.exports = {
     createComment,
     getImageByImageId,
     getMoreImages,
+    getPreviousID,
+    getNextID,
 };
