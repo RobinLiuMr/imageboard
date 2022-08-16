@@ -8,9 +8,15 @@ button {
     margin-bottom: 0.5rem;
 }
 
+body {
+    color: #0f3d3e;
+}
+
 main {
     margin: 30px auto;
     max-width: 980px;
+    background-color: #f1f1f1;
+    height: 100vh;
 }
 
 h1 {
@@ -38,7 +44,7 @@ form button {
 }
 
 .images_container figure {
-    border: 2px solid skyblue;
+    /* border: 2px solid #e2dcc8; */
 }
 
 .images_container img {
@@ -49,11 +55,11 @@ form button {
 }
 
 .image-modal {
-    margin: 20px auto;
+    margin: 70px auto;
     max-width: 980px;
     position: fixed;
     inset: 1rem;
-    background-color: skyblue;
+    background-color: #e2dcc8;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -101,4 +107,12 @@ form button {
 .comments .text {
     font-style: italic;
     font-size: 1.5rem;
+}
+
+.comments div {
+    margin-left: 20px;
+}
+
+.comments form input:nth-child(1) {
+    width: 300px;
 }
